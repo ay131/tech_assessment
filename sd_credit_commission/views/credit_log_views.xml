@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_sd_credit_log_list" model="ir.ui.view">
+        <field name="name">sd.credit.exposure.log.list</field>
+        <field name="model">sd.credit.exposure.log</field>
+        <field name="arch" type="xml">
+            <list string="Credit Exposure Logs" sample="1">
+                <field name="name"/>
+                <field name="checked_on"/>
+                <field name="partner_id"/>
+                <field name="sale_order_id"/>
+                <field name="exposure_amount"/>
+                <field name="credit_limit"/>
+                <field name="status" widget="badge"
+                    decoration-success="status == 'success'"
+                    decoration-warning="status == 'resolved'"
+                    decoration-danger="status == 'blocked'"/>
+                <field name="user_id" optional="show"/>
+                <field name="company_id" groups="base.group_multi_company" optional="hide"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_sd_credit_log_form" model="ir.ui.view">
+        <field name="name">sd.credit.exposure.log.form</field>
+        <field name="model">sd.credit.exposure.log</field>
+        <field name="arch" type="xml">
+            <form string="Credit Exposure Log">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="status"/>
+                            <field name="partner_id"/>
+                            <field name="sale_order_id"/>
+                            <field name="company_id" groups="base.group_multi_company"/>
+                        </group>
+                        <group>
+                            <field name="exposure_amount"/>
+                            <field name="credit_limit"/>
+                            <field name="checked_on"/>
+                            <field name="resolved_on"/>
+                            <field name="user_id"/>
+                        </group>
+                    </group>
+                    <group>
+                        <field name="message" colspan="2"/>
+                    </group>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_sd_credit_log_search" model="ir.ui.view">
+        <field name="name">sd.credit.exposure.log.search</field>
+        <field name="model">sd.credit.exposure.log</field>
+        <field name="arch" type="xml">
+            <search string="Credit Exposure Logs">
+                <field name="name"/>
+                <field name="partner_id"/>
+                <field name="sale_order_id"/>
+                <filter string="Blocked" name="blocked" domain="[('status', '=', 'blocked')]"/>
+                <filter string="Resolved" name="resolved" domain="[('status', '=', 'resolved')]"/>
+                <filter string="Success" name="success" domain="[('status', '=', 'success')]"/>
+                <group>
+                    <filter string="Partner" name="partner" context="{'group_by': 'partner_id'}"/>
+                    <filter string="Status" name="grp_status" context="{'group_by': 'status'}"/>
+                    <filter string="Order" name="grp_so" context="{'group_by': 'sale_order_id'}"/>
+                    <filter string="Month" name="grp_month" context="{'group_by': 'checked_on:month'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_sd_credit_logs" model="ir.actions.act_window">
+        <field name="name">Credit Exposure Logs</field>
+        <field name="res_model">sd.credit.exposure.log</field>
+        <field name="view_mode">list,form,pivot,graph</field>
+    </record>
+</odoo>

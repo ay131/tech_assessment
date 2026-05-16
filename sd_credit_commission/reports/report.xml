@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="action_report_sd_credit_exposure_log" model="ir.actions.report">
+        <field name="name">Credit exposure log</field>
+        <field name="model">sd.credit.exposure.log</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">sd_credit_commission.report_credit_exposure_log_document</field>
+        <field name="report_file">sd_credit_commission.report_credit_exposure_log_document</field>
+        <field name="binding_model_id" ref="model_sd_credit_exposure_log"/>
+        <field name="binding_type">report</field>
+    </record>
+</odoo>

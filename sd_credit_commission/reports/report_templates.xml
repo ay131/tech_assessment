@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="report_credit_exposure_log_document">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-call="web.external_layout">
+                    <div class="page">
+                        <h2>Credit Exposure Log</h2>
+                        <table class="table table-sm mt-4">
+                            <tr>
+                                <th>Reference</th>
+                                <td><span t-field="o.name"/></td>
+                            </tr>
+                            <tr>
+                                <th>Check date</th>
+                                <td><span t-field="o.checked_on"/></td>
+                            </tr>
+                            <tr>
+                                <th>Partner</th>
+                                <td><span t-field="o.partner_id"/></td>
+                            </tr>
+                            <tr>
+                                <th>Sales order</th>
+                                <td><span t-field="o.sale_order_id"/></td>
+                            </tr>
+                            <tr>
+                                <th>Exposure</th>
+                                <td><span t-field="o.exposure_amount"/></td>
+                            </tr>
+                            <tr>
+                                <th>Credit limit</th>
+                                <td><span t-field="o.credit_limit"/></td>
+                            </tr>
+                            <tr>
+                                <th>Status</th>
+                                <td><span t-field="o.status"/></td>
+                            </tr>
+                            <tr>
+                                <th>Details</th>
+                                <td><span t-field="o.message"/></td>
+                            </tr>
+                        </table>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+</odoo>

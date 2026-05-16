@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Record rules: salesman sees own, manager sees all -->
+
+    <record id="sd_credit_log_rule_salesman" model="ir.rule">
+        <field name="name">SD Credit log: own entries</field>
+        <field name="model_id" ref="model_sd_credit_exposure_log"/>
+        <field name="domain_force">[('user_id', '=', user.id)]</field>
+        <field name="groups" eval="[(4, ref('sales_team.group_sale_salesman'))]"/>
+    </record>
+    <record id="sd_credit_log_rule_manager" model="ir.rule">
+        <field name="name">SD Credit log: manager all</field>
+        <field name="model_id" ref="model_sd_credit_exposure_log"/>
+        <field name="domain_force">[(1, '=', 1)]</field>
+        <field name="groups" eval="[(4, ref('sales_team.group_sale_manager'))]"/>
+    </record>
+
+    <record id="sd_commission_log_rule_salesman" model="ir.rule">
+        <field name="name">SD Commission log: own</field>
+        <field name="model_id" ref="model_sd_commission_log"/>
+        <field name="domain_force">[('user_id', '=', user.id)]</field>
+        <field name="groups" eval="[(4, ref('sales_team.group_sale_salesman'))]"/>
+    </record>
+    <record id="sd_commission_log_rule_manager" model="ir.rule">
+        <field name="name">SD Commission log: manager all</field>
+        <field name="model_id" ref="model_sd_commission_log"/>
+        <field name="domain_force">[(1, '=', 1)]</field>
+        <field name="groups" eval="[(4, ref('sales_team.group_sale_manager'))]"/>
+    </record>
+</odoo>

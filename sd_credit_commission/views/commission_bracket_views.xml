@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_sd_commission_bracket_list" model="ir.ui.view">
+        <field name="name">sd.commission.bracket.list</field>
+        <field name="model">sd.commission.bracket</field>
+        <field name="arch" type="xml">
+            <list string="Commission Brackets" editable="bottom">
+                <field name="sequence" widget="handle"/>
+                <field name="amount_from"/>
+                <field name="amount_to"/>
+                <field name="rate"/>
+                <field name="company_id" groups="base.group_multi_company" optional="show"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_sd_commission_bracket_form" model="ir.ui.view">
+        <field name="name">sd.commission.bracket.form</field>
+        <field name="model">sd.commission.bracket</field>
+        <field name="arch" type="xml">
+            <form string="Commission Bracket">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="sequence"/>
+                            <field name="amount_from"/>
+                            <field name="amount_to"/>
+                        </group>
+                        <group>
+                            <field name="rate"/>
+                            <field name="company_id" groups="base.group_multi_company"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_sd_commission_brackets" model="ir.actions.act_window">
+        <field name="name">Commission Brackets</field>
+        <field name="res_model">sd.commission.bracket</field>
+        <field name="view_mode">list,form</field>
+    </record>
+</odoo>

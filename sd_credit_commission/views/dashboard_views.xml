@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="action_sd_credit_dashboard" model="ir.actions.act_window">
+        <field name="name">Credit overview</field>
+        <field name="res_model">sd.credit.exposure.log</field>
+        <field name="view_mode">graph,pivot,list</field>
+        <field name="context">{'group_by': 'status'}</field>
+    </record>
+</odoo>

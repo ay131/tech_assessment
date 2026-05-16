@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <menuitem id="menu_sd_credit_root"
+        name="Credit &amp; Commission"
+        parent="sale.sale_menu_root"
+        sequence="45"
+        groups="sales_team.group_sale_salesman"/>
+
+    <menuitem id="menu_sd_credit_logs"
+        name="Credit Exposure Logs"
+        parent="menu_sd_credit_root"
+        action="action_sd_credit_logs"
+        sequence="10"/>
+
+    <menuitem id="menu_sd_commission_logs"
+        name="Commission Logs"
+        parent="menu_sd_credit_root"
+        action="action_sd_commission_logs"
+        sequence="20"/>
+
+    <menuitem id="menu_sd_commission_brackets"
+        name="Commission Brackets"
+        parent="menu_sd_credit_root"
+        action="action_sd_commission_brackets"
+        sequence="30"
+        groups="sales_team.group_sale_manager"/>
+
+    <menuitem id="menu_sd_credit_dashboard"
+        name="Credit KPIs"
+        parent="menu_sd_credit_root"
+        action="action_sd_credit_dashboard"
+        sequence="5"
+        groups="sales_team.group_sale_manager"/>
+</odoo>

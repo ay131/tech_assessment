@@ -1,0 +1,382 @@
+
+ODOO FULL-STACK TECHNICAL ASSESSMENT
+ERP Development, Business Logic & Workflow Automation
+
+Duration: 1 Week
+Target Role: Odoo Developer (Backend + Frontend)
+Recommended Odoo Version: Odoo v17/v18/v19
+Programming Languages: Python, XML, JavaScript
+
+================================================================================
+OVERVIEW
+================================================================================
+
+You are required to design and develop a simplified but realistic custom Odoo
+module that handles:
+
+- Sales order processing
+- Credit exposure validation
+- Commission calculation
+- Workflow approvals
+- Scheduled reconciliation
+- Reporting and logging
+
+The assessment evaluates:
+
+- Odoo architecture understanding
+- ORM usage
+- Business logic implementation
+- Security and access rights
+- UI customization
+- Scheduled actions (cron jobs)
+- Code quality and modularity
+- Real-world ERP thinking
+
+================================================================================
+BUSINESS CASE
+================================================================================
+
+A company wants to enhance its sales process with:
+
+1. Credit exposure validation before confirming sales orders
+2. Automatic commission calculation for salespersons
+3. Approval workflow for risky orders
+4. Nightly reconciliation of blocked orders
+5. Operational dashboard and reporting
+
+You must implement this as a custom Odoo module.
+
+================================================================================
+MODULE NAME
+================================================================================
+
+sd_credit_commission
+
+================================================================================
+PART 1 — DATA MODELING
+================================================================================
+
+Create the following custom models.
+
+--------------------------------------------------------------------------------
+1. Credit Exposure Log
+--------------------------------------------------------------------------------
+
+Model:
+sd.credit.exposure.log
+
+Fields:
+- name (Char)
+- partner_id (Many2one: res.partner)
+- sale_order_id (Many2one: sale.order)
+- exposure_amount (Float)
+- credit_limit (Float)
+- status (Selection)
+- message (Text)
+- checked_on (Datetime)
+- resolved_on (Datetime)
+- user_id (Many2one: res.users)
+
+Status Values:
+- success
+- blocked
+- resolved
+
+--------------------------------------------------------------------------------
+2. Commission Log
+--------------------------------------------------------------------------------
+
+Model:
+sd.commission.log
+
+Fields:
+- sale_order_id (Many2one: sale.order)
+- user_id (Many2one: res.users)
+- untaxed_amount (Float)
+- commission_amount (Float)
+- commission_rate (Float)
+- confirmed_on (Datetime)
+
+================================================================================
+PART 2 — SALES ORDER CREDIT VALIDATION
+================================================================================
+
+Extend:
+sale.order
+
+Business Rule:
+
+When confirming a sales order:
+
+Retrieve:
+- Customer credit limit
+- Current receivable balance
+- Total uninvoiced confirmed sales orders
+- Current sales order amount
+
+Compute:
+
+Exposure = Receivable Balance
+         + Uninvoiced Orders
+         + Current Order
+
+Validation Logic:
+
+If:
+Exposure > Credit Limit
+
+Then:
+1. Block confirmation
+2. Raise ValidationError
+3. Create a log entry in sd.credit.exposure.log
+4. Status = blocked
+
+Otherwise:
+1. Allow confirmation
+2. Create successful log entry
+3. Continue standard Odoo workflow
+
+================================================================================
+PART 3 — COMMISSION ENGINE
+================================================================================
+
+Implement a progressive commission calculation.
+
+Commission Brackets:
+
+| From Amount | To Amount | Commission Rate |
+|-------------|-----------|-----------------|
+| 0           | 999.99    | 3%              |
+| 1,000       | 4,999.99  | 5%              |
+| 5,000       | 9,999.99  | 7%              |
+| 10,000+     | Infinity  | 10%             |
+
+Requirements:
+
+Create:
+_compute_commission()
+
+Rules:
+- Progressive calculation required
+- Store commission results
+- Automatically create sd.commission.log upon successful confirmation
+
+Example:
+
+For amount = 13,000
+
+Commission should be:
+
+1,000 × 3%
+4,000 × 5%
+5,000 × 7%
+3,000 × 10%
+
+================================================================================
+PART 4 — APPROVAL WORKFLOW
+================================================================================
+
+Add a managerial approval workflow.
+
+New States:
+- draft
+- waiting_approval
+- sale
+- cancel
+
+Rule:
+
+If:
+Exposure > 90% of Credit Limit
+
+BUT:
+Exposure <= Credit Limit
+
+Then:
+1. Move order to waiting_approval
+2. Require approval from Sales Manager group
+3. Add Approve button
+4. Add Reject button
+
+================================================================================
+PART 5 — NIGHTLY RECONCILIATION CRON
+================================================================================
+
+Create a scheduled action (cron job).
+
+Cron Logic:
+
+Every night:
+1. Read blocked logs from last 7 days
+2. Recalculate exposure
+3. If exposure is now acceptable:
+   - Mark log as resolved
+   - Add resolved_on timestamp
+4. Generate summary statistics
+
+Expected Summary Example:
+
+Blocked Reviewed: 15
+Resolved: 6
+Still Blocked: 9
+Execution Time: 3.2 seconds
+
+================================================================================
+PART 6 — USER INTERFACE
+================================================================================
+
+Implement frontend/UI customizations.
+
+Required Views:
+
+1. Credit Exposure Logs
+- Tree view
+- Form view
+- Search filters
+
+2. Commission Logs
+- Tree view
+- Form view
+
+3. Sales Order Enhancements
+Add:
+- Exposure amount field
+- Commission preview
+- Approval status
+- Smart button for logs
+
+Required Smart Buttons:
+- Credit Logs
+- Commission Logs
+
+Optional Bonus:
+- Kanban dashboard
+- Graph/Pivot views
+- KPI cards
+
+================================================================================
+PART 7 — SECURITY
+================================================================================
+
+Implement:
+ir.model.access.csv
+
+Groups:
+
+Sales User:
+- Create orders
+- View own logs
+
+Sales Manager:
+- Approve risky orders
+- View all logs
+
+Administrator:
+- Full access
+
+================================================================================
+PART 8 — REPORTING
+================================================================================
+
+Create at least ONE QWeb report.
+
+Examples:
+- Credit exposure report
+- Commission statement
+- Daily blocked order summary
+
+================================================================================
+PART 9 — TECHNICAL DOCUMENTATION
+================================================================================
+
+Provide a technical design document including:
+
+1. Architecture Overview
+2. Module Structure
+3. Models and Relationships
+4. Business Logic Flow
+5. Security Design
+6. Cron Job Logic
+7. Approval Workflow
+8. Error Handling Strategy
+9. Performance Considerations
+10. Testing Strategy
+11. Assumptions & Limitations
+12. Future Improvements
+
+================================================================================
+PART 10 — BONUS FEATURES (OPTIONAL)
+================================================================================
+
+Any of the following adds bonus points:
+
+- OWL component
+- REST API endpoint
+- Email notification workflow
+- Activity scheduling
+- Chatter integration
+- Multi-company handling
+- Unit tests
+- Docker deployment
+- XLSX export
+- KPI dashboard
+- Automated approval escalation
+- Role-based visibility rules
+- Integration with Accounting module
+
+================================================================================
+EXPECTED PROJECT STRUCTURE
+================================================================================
+
+sd_credit_commission/
+├── __init__.py
+├── __manifest__.py
+├── models/
+│   ├── sale_order.py
+│   ├── credit_log.py
+│   ├── commission_log.py
+│   └── cron.py
+├── security/
+│   ├── ir.model.access.csv
+│   └── security.xml
+├── views/
+│   ├── sale_order_views.xml
+│   ├── credit_log_views.xml
+│   ├── commission_views.xml
+│   ├── menus.xml
+│   └── dashboard_views.xml
+├── data/
+│   └── cron.xml
+├── reports/
+│   ├── report.xml
+│   └── report_templates.xml
+├── static/
+│   └── description/
+├── tests/
+├── README.md
+└── docs/
+    └── TechnicalDesign.pdf
+
+================================================================================
+SUBMISSION REQUIREMENTS
+================================================================================
+
+This is a fictitious case. No need for any submissions.
+The developed solution shall be showcased through an online session.
+
+================================================================================
+IMPORTANT NOTES
+================================================================================
+
+- Use proper Odoo ORM conventions
+- Avoid hardcoding values where possible
+- Keep code modular and maintainable
+- Focus on realistic ERP behavior
+- Use meaningful naming conventions
+- Handle exceptions gracefully
+- Include comments where necessary
+
+================================================================================
+END OF ASSESSMENT
+================================================================================
+```

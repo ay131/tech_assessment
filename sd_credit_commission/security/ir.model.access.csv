@@ -1,0 +1,10 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_sd_credit_log_salesman,sd.credit.log.salesman,model_sd_credit_exposure_log,sales_team.group_sale_salesman,1,1,1,0
+access_sd_credit_log_manager,sd.credit.log.manager,model_sd_credit_exposure_log,sales_team.group_sale_manager,1,1,1,1
+access_sd_credit_log_system,sd.credit.log.system,model_sd_credit_exposure_log,base.group_system,1,1,1,1
+access_sd_commission_log_salesman,sd.commission.log.salesman,model_sd_commission_log,sales_team.group_sale_salesman,1,0,1,0
+access_sd_commission_log_manager,sd.commission.log.manager,model_sd_commission_log,sales_team.group_sale_manager,1,1,1,1
+access_sd_commission_log_system,sd.commission.log.system,model_sd_commission_log,base.group_system,1,1,1,1
+access_sd_commission_bracket_salesman,sd.commission.bracket.salesman,model_sd_commission_bracket,sales_team.group_sale_salesman,1,0,0,0
+access_sd_commission_bracket_manager,sd.commission.bracket.manager,model_sd_commission_bracket,sales_team.group_sale_manager,1,1,1,1
+access_sd_commission_bracket_system,sd.commission.bracket.system,model_sd_commission_bracket,base.group_system,1,1,1,1

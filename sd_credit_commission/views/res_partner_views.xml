@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_partner_sd_credit_limit_form" model="ir.ui.view">
+        <field name="name">res.partner.sd.credit.limit.form</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//page[@name='sales_purchases']" position="inside">
+                <group string="Credit Control">
+                    <field name="credit_limit" string="Credit Limit"/>
+                    <field name="credit" string="Total Receivable" readonly="1"/>
+                </group>
+            </xpath>
+        </field>
+    </record>
+</odoo>

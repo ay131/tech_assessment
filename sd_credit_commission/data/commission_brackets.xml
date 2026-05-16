@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <record id="bracket_tier_1" model="sd.commission.bracket">
+            <field name="sequence">10</field>
+            <field name="amount_from">0</field>
+            <field name="amount_to">999.99</field>
+            <field name="rate">3.0</field>
+        </record>
+        <record id="bracket_tier_2" model="sd.commission.bracket">
+            <field name="sequence">20</field>
+            <field name="amount_from">1000</field>
+            <field name="amount_to">4999.99</field>
+            <field name="rate">5.0</field>
+        </record>
+        <record id="bracket_tier_3" model="sd.commission.bracket">
+            <field name="sequence">30</field>
+            <field name="amount_from">5000</field>
+            <field name="amount_to">9999.99</field>
+            <field name="rate">7.0</field>
+        </record>
+        <record id="bracket_tier_4" model="sd.commission.bracket">
+            <field name="sequence">40</field>
+            <field name="amount_from">10000</field>
+            <field name="amount_to">0</field>
+            <field name="rate">10.0</field>
+        </record>
+    </data>
+</odoo>
